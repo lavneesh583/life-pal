@@ -27,4 +27,41 @@ router.post("/register", async(req, res) => {
     
 });
 
+router.post("/login", async (req, res) => {
+    try{
+        const user = await User.findOne({email: req.body.email});
+
+        if(!user)
+        {
+            res.status(401).json("wrong credentials1");
+        }
+
+        const hashedpassword = cryptoJS.AES.decrypt(
+            user.password,
+            process.env.PASS_SEC
+        );
+
+        const orginalPassword = hashedpassword.toString(cryptoJS.enc.Utf8);
+
+        if(orginalPassword != req.body.password)
+        {
+            res.status(401).send("wrong credentials2");
+        }
+
+        // const accessToken = jwt.sign ({
+        //     id: user._id,
+        // }, 
+        // process.env.JWT_SEC,
+        // {expiresIn: "3d"}
+        // );
+
+        const { password, ...others} = user._doc; // ... represents array 
+        res.status(200).json({...others});
+    }
+
+    catch(e){
+        res.status(500).json(e);
+    }
+})
+
 module.exports = router;
