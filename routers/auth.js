@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require("../models/schemas");
+const { User, Order } = require("../models/schemas");
 
 const cryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");

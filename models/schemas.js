@@ -34,8 +34,30 @@ const userSchema = new mongoose.Schema({
     {timestamps: true}
 );
 
+const orderSchema = new mongoose.Schema({
+    units:{
+        type: Number,
+        required: true
+    },
+    address:{
+        type: String,
+        required: true
+    },
+    bloodGroup:{
+        type: String,
+        required: true
+    },
+    expDelivery:{
+        type: Boolean
+    }
+}, 
+    {timestamps: true}
+);
+
+
 const User = new mongoose.model("User", userSchema);
+const Order = new mongoose.model("Order", orderSchema);
 
 module.exports = {
-    User
+    User, Order
 };
